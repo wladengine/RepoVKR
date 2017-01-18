@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c6ef22b4ada849c79565dd1212222e58" Name="Diagram1">
+        <EntityTypeShape EntityType="RepoVKRModel.GraduateBook" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepoVKRModel.GraduateWorkFile" Width="1.75" PointX="5" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepoVKRModel.Person" Width="1.5" PointX="10.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepoVKRModel.Reviewer" Width="1.5" PointX="0.625" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepoVKRModel.ScienceDirector" Width="1.5" PointX="0.625" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepoVKRModel.Student" Width="1.5" PointX="7.25" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="RepoVKRModel.FK_GraduateBook_Reviewer" ManuallyRouted="false" />
+        <AssociationConnector Association="RepoVKRModel.FK_GraduateBook_ScienceDirector" ManuallyRouted="false" />
+        <AssociationConnector Association="RepoVKRModel.FK_GraduateBook_Student" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RepoVKRModel.StudyLevelNameMask" Width="1.5" PointX="10" PointY="3.875" />
+        <AssociationConnector Association="RepoVKRModel.FK_Student_Person" />
+        <AssociationConnector Association="RepoVKRModel.FK_GraduateWorkFile_GraduateBook" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoVKR", "RepoVKR\RepoVKR.csproj", "{3C0B6BA8-8C6B-42B2-9492-9E0FC11F1A6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoVKR_WinApp", "RepoVKR_WinApp\RepoVKR_WinApp.csproj", "{8BE60A67-B631-4745-BD3F-E9FEA3CE92F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C0B6BA8-8C6B-42B2-9492-9E0FC11F1A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C0B6BA8-8C6B-42B2-9492-9E0FC11F1A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C0B6BA8-8C6B-42B2-9492-9E0FC11F1A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C0B6BA8-8C6B-42B2-9492-9E0FC11F1A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE60A67-B631-4745-BD3F-E9FEA3CE92F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE60A67-B631-4745-BD3F-E9FEA3CE92F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE60A67-B631-4745-BD3F-E9FEA3CE92F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE60A67-B631-4745-BD3F-E9FEA3CE92F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

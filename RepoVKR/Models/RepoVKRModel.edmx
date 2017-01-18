@@ -1,0 +1,488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RepoVKRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GraduateBook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StudentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ScienceDirectorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ReviewerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="VKRName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="VKRNameEng" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ScienceDirectorInfo" Type="nvarchar(max)" />
+          <Property Name="ReviewerInfo" Type="nvarchar(max)" />
+          <Property Name="VKRAnnotation" Type="nvarchar(max)" />
+          <Property Name="VKRAnnotationEng" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GraduateWorkFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GraduateBookId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileStorageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FileSize" Type="int" Nullable="false" />
+          <Property Name="FileHash" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="FileExtention" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MimeType" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="IsMainFile" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PK1" Type="int" Nullable="false" />
+          <Property Name="ST" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="FIOEng" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Reviewer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ST" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="ScienceDirector">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ST" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PK1" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FacultyPK1" Type="int" Nullable="false" />
+          <Property Name="FacultyName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="DirectionName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ObrazProgramName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="WorkPlanNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StudyLevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StudyBasisName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StudyNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StudyFormName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudyLevelNameMask">
+          <Key>
+            <PropertyRef Name="StudyLevelName" />
+          </Key>
+          <Property Name="StudyLevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeInt" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_GraduateBook_Reviewer">
+          <End Role="Reviewer" Type="Self.Reviewer" Multiplicity="1" />
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reviewer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateBook">
+              <PropertyRef Name="ReviewerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GraduateBook_ScienceDirector">
+          <End Role="ScienceDirector" Type="Self.ScienceDirector" Multiplicity="1" />
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScienceDirector">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateBook">
+              <PropertyRef Name="ScienceDirectorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GraduateBook_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateBook">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GraduateWorkFile_GraduateBook">
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="1" />
+          <End Role="GraduateWorkFile" Type="Self.GraduateWorkFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GraduateBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateWorkFile">
+              <PropertyRef Name="GraduateBookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RepoVKRModelStoreContainer">
+          <EntitySet Name="GraduateBook" EntityType="Self.GraduateBook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GraduateWorkFile" EntityType="Self.GraduateWorkFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reviewer" EntityType="Self.Reviewer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScienceDirector" EntityType="Self.ScienceDirector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudyLevelNameMask" EntityType="Self.StudyLevelNameMask" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GraduateBook_Reviewer" Association="Self.FK_GraduateBook_Reviewer">
+            <End Role="Reviewer" EntitySet="Reviewer" />
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GraduateBook_ScienceDirector" Association="Self.FK_GraduateBook_ScienceDirector">
+            <End Role="ScienceDirector" EntitySet="ScienceDirector" />
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GraduateBook_Student" Association="Self.FK_GraduateBook_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GraduateWorkFile_GraduateBook" Association="Self.FK_GraduateWorkFile_GraduateBook">
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+            <End Role="GraduateWorkFile" EntitySet="GraduateWorkFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Person" Association="Self.FK_Student_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RepoVKRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GraduateBook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="StudentId" Type="Guid" Nullable="false" />
+          <Property Name="ScienceDirectorId" Type="Guid" Nullable="false" />
+          <Property Name="ReviewerId" Type="Guid" Nullable="false" />
+          <Property Name="VKRName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VKRNameEng" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ScienceDirectorInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewerInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VKRAnnotation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VKRAnnotationEng" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reviewer" Relationship="Self.FK_GraduateBook_Reviewer" FromRole="GraduateBook" ToRole="Reviewer" />
+          <NavigationProperty Name="ScienceDirector" Relationship="Self.FK_GraduateBook_ScienceDirector" FromRole="GraduateBook" ToRole="ScienceDirector" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_GraduateBook_Student" FromRole="GraduateBook" ToRole="Student" />
+          <NavigationProperty Name="GraduateWorkFile" Relationship="RepoVKRModel.FK_GraduateWorkFile_GraduateBook" FromRole="GraduateBook" ToRole="GraduateWorkFile" />
+        </EntityType>
+        <EntityType Name="GraduateWorkFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="GraduateBookId" Type="Guid" Nullable="false" />
+          <Property Name="FileStorageId" Type="Guid" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="FileHash" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="FileExtention" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MimeType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsMainFile" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="GraduateBook" Relationship="RepoVKRModel.FK_GraduateWorkFile_GraduateBook" FromRole="GraduateWorkFile" ToRole="GraduateBook" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PK1" Type="Int32" Nullable="false" />
+          <Property Name="ST" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FIOEng" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Student" Relationship="RepoVKRModel.FK_Student_Person" FromRole="Person" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Reviewer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ST" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GraduateBook" Relationship="Self.FK_GraduateBook_Reviewer" FromRole="Reviewer" ToRole="GraduateBook" />
+        </EntityType>
+        <EntityType Name="ScienceDirector">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ST" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GraduateBook" Relationship="Self.FK_GraduateBook_ScienceDirector" FromRole="ScienceDirector" ToRole="GraduateBook" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PK1" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Guid" Nullable="false" />
+          <Property Name="FacultyPK1" Type="Int32" Nullable="false" />
+          <Property Name="FacultyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DirectionName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ObrazProgramName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WorkPlanNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StudyLevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StudyBasisName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StudyNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StudyFormName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GraduateBook" Relationship="Self.FK_GraduateBook_Student" FromRole="Student" ToRole="GraduateBook" />
+          <NavigationProperty Name="Person" Relationship="RepoVKRModel.FK_Student_Person" FromRole="Student" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK_GraduateBook_Reviewer">
+          <End Role="Reviewer" Type="Self.Reviewer" Multiplicity="1" />
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reviewer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateBook">
+              <PropertyRef Name="ReviewerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GraduateBook_ScienceDirector">
+          <End Role="ScienceDirector" Type="Self.ScienceDirector" Multiplicity="1" />
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScienceDirector">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateBook">
+              <PropertyRef Name="ScienceDirectorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GraduateBook_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateBook">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RepoVKREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GraduateBook" EntityType="Self.GraduateBook" />
+          <EntitySet Name="GraduateWorkFile" EntityType="Self.GraduateWorkFile" />
+          <EntitySet Name="Person" EntityType="Self.Person" />
+          <EntitySet Name="Reviewer" EntityType="Self.Reviewer" />
+          <EntitySet Name="ScienceDirector" EntityType="Self.ScienceDirector" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <AssociationSet Name="FK_GraduateBook_Reviewer" Association="Self.FK_GraduateBook_Reviewer">
+            <End Role="Reviewer" EntitySet="Reviewer" />
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GraduateBook_ScienceDirector" Association="Self.FK_GraduateBook_ScienceDirector">
+            <End Role="ScienceDirector" EntitySet="ScienceDirector" />
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GraduateBook_Student" Association="Self.FK_GraduateBook_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+          </AssociationSet>
+          <EntitySet Name="StudyLevelNameMask" EntityType="RepoVKRModel.StudyLevelNameMask" />
+          <AssociationSet Name="FK_Student_Person" Association="RepoVKRModel.FK_Student_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GraduateWorkFile_GraduateBook" Association="RepoVKRModel.FK_GraduateWorkFile_GraduateBook">
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+            <End Role="GraduateWorkFile" EntitySet="GraduateWorkFile" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="StudyLevelNameMask">
+          <Key>
+            <PropertyRef Name="StudyLevelName" />
+          </Key>
+          <Property Name="StudyLevelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeInt" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Student_Person">
+          <End Type="RepoVKRModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="RepoVKRModel.Student" Role="Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GraduateWorkFile_GraduateBook">
+          <End Type="RepoVKRModel.GraduateBook" Role="GraduateBook" Multiplicity="1" />
+          <End Type="RepoVKRModel.GraduateWorkFile" Role="GraduateWorkFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GraduateBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GraduateWorkFile">
+              <PropertyRef Name="GraduateBookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RepoVKRModelStoreContainer" CdmEntityContainer="RepoVKREntities">
+          <EntitySetMapping Name="GraduateBook">
+            <EntityTypeMapping TypeName="RepoVKRModel.GraduateBook">
+              <MappingFragment StoreEntitySet="GraduateBook">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="ScienceDirectorId" ColumnName="ScienceDirectorId" />
+                <ScalarProperty Name="ReviewerId" ColumnName="ReviewerId" />
+                <ScalarProperty Name="VKRName" ColumnName="VKRName" />
+                <ScalarProperty Name="VKRNameEng" ColumnName="VKRNameEng" />
+                <ScalarProperty Name="ScienceDirectorInfo" ColumnName="ScienceDirectorInfo" />
+                <ScalarProperty Name="ReviewerInfo" ColumnName="ReviewerInfo" />
+                <ScalarProperty Name="VKRAnnotation" ColumnName="VKRAnnotation" />
+                <ScalarProperty Name="VKRAnnotationEng" ColumnName="VKRAnnotationEng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GraduateWorkFile">
+            <EntityTypeMapping TypeName="RepoVKRModel.GraduateWorkFile">
+              <MappingFragment StoreEntitySet="GraduateWorkFile">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GraduateBookId" ColumnName="GraduateBookId" />
+                <ScalarProperty Name="FileStorageId" ColumnName="FileStorageId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileHash" ColumnName="FileHash" />
+                <ScalarProperty Name="FileExtention" ColumnName="FileExtention" />
+                <ScalarProperty Name="MimeType" ColumnName="MimeType" />
+                <ScalarProperty Name="IsMainFile" ColumnName="IsMainFile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Person">
+            <EntityTypeMapping TypeName="RepoVKRModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PK1" ColumnName="PK1" />
+                <ScalarProperty Name="ST" ColumnName="ST" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FIOEng" ColumnName="FIOEng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviewer">
+            <EntityTypeMapping TypeName="RepoVKRModel.Reviewer">
+              <MappingFragment StoreEntitySet="Reviewer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ST" ColumnName="ST" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScienceDirector">
+            <EntityTypeMapping TypeName="RepoVKRModel.ScienceDirector">
+              <MappingFragment StoreEntitySet="ScienceDirector">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ST" ColumnName="ST" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="RepoVKRModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PK1" ColumnName="PK1" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="FacultyPK1" ColumnName="FacultyPK1" />
+                <ScalarProperty Name="FacultyName" ColumnName="FacultyName" />
+                <ScalarProperty Name="DirectionName" ColumnName="DirectionName" />
+                <ScalarProperty Name="ObrazProgramName" ColumnName="ObrazProgramName" />
+                <ScalarProperty Name="WorkPlanNumber" ColumnName="WorkPlanNumber" />
+                <ScalarProperty Name="StudyLevelName" ColumnName="StudyLevelName" />
+                <ScalarProperty Name="StudyBasisName" ColumnName="StudyBasisName" />
+                <ScalarProperty Name="StudyNumber" ColumnName="StudyNumber" />
+                <ScalarProperty Name="StudyFormName" ColumnName="StudyFormName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudyLevelNameMask">
+            <EntityTypeMapping TypeName="RepoVKRModel.StudyLevelNameMask">
+              <MappingFragment StoreEntitySet="StudyLevelNameMask">
+                <ScalarProperty Name="TypeInt" ColumnName="TypeInt" />
+                <ScalarProperty Name="StudyLevelName" ColumnName="StudyLevelName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
