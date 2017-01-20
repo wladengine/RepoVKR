@@ -33,13 +33,16 @@ namespace RepoVKR.Controllers
                          Pers.Name,
                          Stud.FacultyName,
                          Stud.DirectionName,
-                         GradBook.Id
+                         GradBook.Id,
+                         GradBook.VKRName,
+
                      }).ToList()
                      .Select(x => new RepoMainListItem()
                      {
                          FIO = x.Surname + " " + x.Name,
                          Id = x.Id.ToString(),
-                         ObrazProgramName = x.FacultyName,
+                         VKRName = x.VKRName,
+
                      }).ToList();
 
                 RepoMainList model = new RepoMainList()
@@ -49,6 +52,82 @@ namespace RepoVKR.Controllers
                 };
 
                 return View(model);
+            }
+        }
+
+        public ActionResult Search(RepoSearchModel Model)
+        {
+            if (Model ==  null)
+            {
+                Model = new RepoSearchModel();
+                Model.SLName1 = Model.SLName2 = Model.SLName3 = "1";
+            }
+            using (RepoVKREntities context = new RepoVKREntities())
+            {
+                if (Model.StudyLevelNameId == null)
+                    Model.StudyLevelNameId = new List<int>();
+                if (Model.SLName1 == "1")
+                    Model.StudyLevelNameId.Add(1);
+                if (Model.SLName2 == "1")
+                    Model.StudyLevelNameId.Add(2); 
+                if (Model.SLName3 == "1")
+                    Model.StudyLevelNameId.Add(3);
+
+                List<string> PersonFIOlst = (Model.PersonFIO??"").ToLower().Split(' ').ToList();
+                List<string> ScienceDirectorFIOlst = (Model.ScienceDirector ?? "").ToLower().Split(' ').ToList();
+
+                var lst =
+                    (from GradBook in context.GraduateBook
+                     join Stud in context.Student on GradBook.StudentId equals Stud.Id
+                     join SDir in context.ScienceDirector on GradBook.ScienceDirectorId equals SDir.Id
+                     join Pers in context.Person on Stud.PersonId equals Pers.Id
+                     join SLMask in context.StudyLevelNameMask on Stud.StudyLevelName equals SLMask.StudyLevelName
+                     where
+                     (Model.StudyLevelNameId.Count > 0 ? Model.StudyLevelNameId.Contains(SLMask.TypeInt) : true)
+                     && (!String.IsNullOrEmpty(Model.VKRName) ? GradBook.VKRName.Contains(Model.VKRName) : true)
+                     && (!String.IsNullOrEmpty(Model.DirectionName) ? Stud.DirectionName.Contains(Model.DirectionName) : true)
+                     select new
+                     {
+                         Pers.Surname,
+                         Pers.Name,
+                         Stud.FacultyName,
+                         Stud.DirectionName,
+                         GradBook.Id,
+                         SDirSurname = SDir.Surname,
+                         SDirName = SDir.Name,
+                         GradBook.VKRName,
+                     }).ToList();
+
+                foreach (string s in PersonFIOlst)
+                {
+                    if (!string.IsNullOrEmpty(s) && s!=" ")
+                        lst = lst.Where(x => x.Surname.ToLower().Contains(s) || x.Name.ToLower().Contains(s)).ToList();
+                }
+                foreach (string s in ScienceDirectorFIOlst)
+                {
+                    if (!string.IsNullOrEmpty(s) && s != " ")
+                        lst = lst.Where(x => x.SDirSurname.ToLower().Contains(s) || x.SDirName.ToLower().Contains(s)).ToList();
+                }
+                Model.lstGraduates = lst.Select(x => new RepoMainListItem()
+                     {
+                         FIO = x.Surname + " " + x.Name,
+                         Id = x.Id.ToString(),
+                         DirectionName = x.DirectionName,
+                         VKRName = x.VKRName,
+                         ScienceDirector = x.SDirSurname + " " + x.SDirName ,
+                     }).ToList();
+
+                Model.DirectionNames =
+                    (from Stud in context.Student
+                     select new SelectListItem()
+                     {
+                         Value = Stud.DirectionName,
+                         Text = Stud.DirectionName
+                     }).Distinct().ToList();
+                var l = new SelectListItem() { Value = "", Text = "все" };
+                Model.DirectionNames.Add(l);
+                Model.DirectionNames = Model.DirectionNames.OrderBy(x =>  x.Value).ToList();
+                return View(Model);
             }
         }
 

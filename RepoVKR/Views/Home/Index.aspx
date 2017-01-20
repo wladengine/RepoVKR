@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
 <asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
-    Home Page - My ASP.NET MVC Application
+  
 </asp:Content>
 
 <asp:Content ID="indexFeatured" ContentPlaceHolderID="FeaturedContent" runat="server">
@@ -15,21 +15,24 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h3>We suggest the following:</h3>
-    <ol class="round">
-        <li class="one">
-            <h5>Бакалавры</h5>
-            <a href="../Repo/Index/1/">Learn more…</a>
-        </li>
+    <div class ="leftmenu">
+        <b>Выберите категорию:</b>
+        <ul>
+            <li> 
+                <a href="../Repo/Index/1/"><b>Бакалавры</b></a>
+            </li>
+            <li>
+                <a href="../Repo/Index/2/"><b>Магистры</b></a>
+            </li>
+            <li>
+                <a href="../Repo/Index/3/"><b>Аспиранты</b></a>
+            </li>
+        </ul>
 
-        <li class="two">
-            <h5>Магистры</h5>
-            <a href="../Repo/Index/2/">Learn more…</a>
-        </li>
-
-        <li class="three">
-            <h5>Аспиранты</h5>
-            <a href="../Repo/Index/3/">Learn more…</a>
-        </li>
-    </ol>
+        <b><a href="../Repo/Search/">Поиск по параметрам</a></b>
+    </div>
+        
+    <div>
+        Приветствую тебя, дорогой гость.
+    </div>
 </asp:Content>
