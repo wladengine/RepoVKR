@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<RepoVKR.RepoSearchModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<RepoVKR.RepoKeyWordModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Index
@@ -8,7 +8,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 <script>
-    function FormSortFIO() {
+    function FormSortFIO()
+    {
         if ($('#sort').val() == "fio") {
             $('#sort').val("");
             FormSubmit();
@@ -18,7 +19,8 @@
             FormSubmit();
         }
     }
-    function FormSortFIOd() {
+    function FormSortFIOd()
+    {
         if ($('#sort').val() == "fiod") {
             $('#sort').val("");
             FormSubmit();
@@ -90,26 +92,14 @@
         <br />  
         <br />  
     <div>
-        <div class="searchspan">ФИО студента</div> <%=Html.TextBoxFor(x=>x.PersonFIO, new SortedList<string, object>() { {"class","inputsearchspan"} })%>
+        <div class="searchspan">Ключевые слова:</div> <%=Html.TextBoxFor(x=>x.KeyWord, new SortedList<string, object>() { {"class","inputsearchspan"} })%>
     </div>
-    <div>
-        <div class="searchspan">Направление</div> 
-        <%= Html.DropDownListFor(x => x.DirectionName, Model.DirectionNames, new SortedList<string, object>() { {"class","selectDirection"} })%>
-    </div>
-        <br />
-    <div>
-        <div class="searchspan">Научный руководитель</div> <%=Html.TextBoxFor(x=>x.ScienceDirector, new SortedList<string, object>() { {"class","inputsearchspan"} })%>
-    </div>
-    <div>
-        <div class="searchspan">Тема ВКР</div> <%=Html.TextBoxFor(x=>x.VKRName, new SortedList<string, object>() { {"class","inputsearchspan"} })%>
-    </div>
-    
     <div>
         <input type="submit" value="  Поиск  " class="formsubmit"/>
     </div>
    </form>
 <% 
-   List<RepoVKR.RepoMainListItem> lst = Model.lstGraduates;
+   List<RepoVKR.RepoMainListItem> lst = Model.lstGraduates.OrderByDescending(x=>x.Priority).ToList();
    if (sort == "fio"){
        lst = Model.lstGraduates.OrderBy(x=>x.FIO).ToList();
    }

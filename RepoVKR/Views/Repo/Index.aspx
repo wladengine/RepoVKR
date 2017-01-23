@@ -5,13 +5,39 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+<script>
+    function FormSortFIO() {
+        if ($('#sort').val() == "fio") {
+            $('#sort').val("");
+            FormSubmit();
+        }
+        else {
+            $('#sort').val("fio");
+            FormSubmit();
+        }
+    }
+    function FormSortFIOd() {
+        if ($('#sort').val() == "fio") {
+            $('#sort').val("");
+            FormSubmit();
+        }
+        else {
+            $('#sort').val("fiod");
+            FormSubmit();
+        }
+    }
+    function FormSubmit() {
+        $('#fOpenCard').submit();
+    }
+</script>
+    <% string sort = Request.Params["sort"];
+       if (String.IsNullOrEmpty(sort)) sort = "fio";%>
     <div>
         Сортировать по: 
-        <a href ="/Repo/Index/1?sort=fio">ФИО ↓</a> 
-        <a href ="/Repo/Index/1?sort=fiod">ФИО ↑</a>  
+        <a href ="/Repo/Index/1?sort=fio"><%if (sort=="fio") { %><b><%} %>ФИО ↓</a> </b>
+        <a href ="/Repo/Index/1?sort=fiod"><%if (sort=="fiod") { %><b><%} %>ФИО ↑</a>  </b>
     </div>
-<% string sort = Request.Params["sort"];
+<%
    List<RepoVKR.RepoMainListItem> lst = Model.lstGraduates;
    if (sort == "fio"){
        lst = Model.lstGraduates.OrderBy(x=>x.FIO).ToList();

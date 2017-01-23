@@ -9,21 +9,55 @@
 .searchspan
 {
     height: 19px;
-    width: 190px;
+    min-width: 190px;
     float: left; 
     text-align:right;
     padding-right: 7px;
     margin-top:7px;
-     font-size: 16.32px;
+    font-size: 16.32px;
 
 }
-
+.inputsearchspan{
+     width: 402px; 
+}
 .searchspanshort
 {
-    width: 90px;
+    min-width: 50px;
+    padding:  0px 12px;
 }
  .selectDirection
  {
-     width: 312px; 
+     width: 414px; 
      font-size: 16.32px;
+ }
+
+ .divheader
+ {
+     background : #444444;
+     color: #EEEEEE;
+     font-weight: 700;
+     min-height: 26px;
+     vertical-align: middle;
+     padding: 8px 0px 0px 8px;
+ }
+
+ .searchtable{
+     width:1296px;
+ }
+
+ .trsearch{
+     padding: 3px;
+ }
+ .thheader
+ {
+     height: 55px;
+     padding-top: 7px;
+ }
+ .divindex
+ {
+     vertical-align:top;
+ }
+ .maindivindex
+ {
+     margin-left: 20px;
  }

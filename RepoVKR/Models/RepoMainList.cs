@@ -19,7 +19,7 @@ namespace RepoVKR
         public string DirectionName { get; set; }
         public string VKRName { get; set; }
         public string ScienceDirector { get; set; }
-
+        public int Priority { get; set; }
     }
 
     public class RepoSearchModel
@@ -34,6 +34,16 @@ namespace RepoVKR
         public string SLName1 { get; set; }
         public string SLName2 { get; set; }
         public string SLName3 { get; set; }
+
+    }
+    public class RepoKeyWordModel
+    {
+        public string KeyWord { get; set; }
+        public List<int> StudyLevelNameId { get; set; }
+        public string SLName1 { get; set; }
+        public string SLName2 { get; set; }
+        public string SLName3 { get; set; }
+        public List<RepoMainListItem> lstGraduates { get; set; }
 
     }
 }

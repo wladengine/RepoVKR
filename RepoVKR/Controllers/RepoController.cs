@@ -65,7 +65,11 @@ namespace RepoVKR.Controllers
             using (RepoVKREntities context = new RepoVKREntities())
             {
                 if (Model.StudyLevelNameId == null)
+                {
                     Model.StudyLevelNameId = new List<int>();
+                    if (String.IsNullOrEmpty(Model.SLName1) && String.IsNullOrEmpty(Model.SLName2) && String.IsNullOrEmpty(Model.SLName3))
+                        Model.SLName1 = Model.SLName2 = Model.SLName3 = "1";
+                }
                 if (Model.SLName1 == "1")
                     Model.StudyLevelNameId.Add(1);
                 if (Model.SLName2 == "1")
@@ -127,6 +131,141 @@ namespace RepoVKR.Controllers
                 var l = new SelectListItem() { Value = "", Text = "все" };
                 Model.DirectionNames.Add(l);
                 Model.DirectionNames = Model.DirectionNames.OrderBy(x =>  x.Value).ToList();
+                return View(Model);
+            }
+        }
+        public ActionResult Keyword(RepoKeyWordModel Model)
+        {
+            if (Model == null)
+            {
+                Model = new RepoKeyWordModel();
+                Model.SLName1 = Model.SLName2 = Model.SLName3 = "1";
+            }
+            using (RepoVKREntities context = new RepoVKREntities())
+            {
+                if (Model.StudyLevelNameId == null)
+                {
+                    Model.StudyLevelNameId = new List<int>();
+                    if (String.IsNullOrEmpty(Model.SLName1) && String.IsNullOrEmpty(Model.SLName2) && String.IsNullOrEmpty(Model.SLName3))
+                        Model.SLName1 = Model.SLName2 = Model.SLName3 = "1";
+                }
+                if (Model.SLName1 == "1")
+                    Model.StudyLevelNameId.Add(1);
+                if (Model.SLName2 == "1")
+                    Model.StudyLevelNameId.Add(2);
+                if (Model.SLName3 == "1")
+                    Model.StudyLevelNameId.Add(3);
+
+                List<string> KeyWordslst = (Model.KeyWord ?? "").ToLower().Split(' ').ToList();
+                Model.lstGraduates = new List<RepoMainListItem>();
+                foreach (string s in KeyWordslst)
+                { 
+                    var lst =
+                        (from GradBook in context.GraduateBook
+                         join Stud in context.Student on GradBook.StudentId equals Stud.Id
+                         join SDir in context.ScienceDirector on GradBook.ScienceDirectorId equals SDir.Id
+                         join Pers in context.Person on Stud.PersonId equals Pers.Id
+                         join SLMask in context.StudyLevelNameMask on Stud.StudyLevelName equals SLMask.StudyLevelName
+                         where  
+                         (Model.StudyLevelNameId.Count > 0 ? Model.StudyLevelNameId.Contains(SLMask.TypeInt) : true ) && 
+                         (Pers.Surname.ToLower().Contains(s) || 
+                         Pers.Name.ToLower().Contains(s))
+                         select new
+                         {
+                             Pers.Surname,
+                             Pers.Name,
+                             Stud.FacultyName,
+                             Stud.DirectionName,
+                             GradBook.Id,
+                             SDirSurname = SDir.Surname,
+                             SDirName = SDir.Name,
+                             GradBook.VKRName,
+                         }).Select(x => new RepoMainListItem()
+                         {
+                             FIO = x.Surname + " " + x.Name,
+                             Id = x.Id.ToString(),
+                             DirectionName = x.DirectionName,
+                             VKRName = x.VKRName,
+                             ScienceDirector = x.SDirSurname + " " + x.SDirName,
+                             Priority = 2,
+                         }).ToList();
+                    Model.lstGraduates.AddRange(lst);
+                }
+                foreach (string s in KeyWordslst)
+                {
+                    var lst =
+                        (from GradBook in context.GraduateBook
+                         join Stud in context.Student on GradBook.StudentId equals Stud.Id
+                         join SDir in context.ScienceDirector on GradBook.ScienceDirectorId equals SDir.Id
+                         join Pers in context.Person on Stud.PersonId equals Pers.Id
+                         join SLMask in context.StudyLevelNameMask on Stud.StudyLevelName equals SLMask.StudyLevelName
+                         where
+                         (Model.StudyLevelNameId.Count > 0 ? Model.StudyLevelNameId.Contains(SLMask.TypeInt) : true) && 
+                         (SDir.Surname.ToLower().Contains(s) ||
+                         SDir.Name.ToLower().Contains(s))
+                         select new
+                         {
+                             Pers.Surname,
+                             Pers.Name,
+                             Stud.FacultyName,
+                             Stud.DirectionName,
+                             GradBook.Id,
+                             SDirSurname = SDir.Surname,
+                             SDirName = SDir.Name,
+                             GradBook.VKRName,
+                         }).Select(x => new RepoMainListItem()
+                         {
+                             FIO = x.Surname + " " + x.Name,
+                             Id = x.Id.ToString(),
+                             DirectionName = x.DirectionName,
+                             VKRName = x.VKRName,
+                             ScienceDirector = x.SDirSurname + " " + x.SDirName,
+                             Priority = 1,
+                         }).ToList();
+                    Model.lstGraduates.AddRange(lst);
+                }
+                foreach (string s in KeyWordslst)
+                {
+                    var lst =
+                        (from GradBook in context.GraduateBook
+                         join Stud in context.Student on GradBook.StudentId equals Stud.Id
+                         join SDir in context.ScienceDirector on GradBook.ScienceDirectorId equals SDir.Id
+                         join Pers in context.Person on Stud.PersonId equals Pers.Id
+                         join SLMask in context.StudyLevelNameMask on Stud.StudyLevelName equals SLMask.StudyLevelName
+                         where
+                         (Model.StudyLevelNameId.Count > 0 ? Model.StudyLevelNameId.Contains(SLMask.TypeInt) : true) && 
+                         GradBook.VKRName.ToLower().Contains(s) 
+                         select new
+                         {
+                             Pers.Surname,
+                             Pers.Name,
+                             Stud.FacultyName,
+                             Stud.DirectionName,
+                             GradBook.Id,
+                             SDirSurname = SDir.Surname,
+                             SDirName = SDir.Name,
+                             GradBook.VKRName,
+                         }).Select(x => new RepoMainListItem()
+                         {
+                             FIO = x.Surname + " " + x.Name,
+                             Id = x.Id.ToString(),
+                             DirectionName = x.DirectionName,
+                             VKRName = x.VKRName,
+                             ScienceDirector = x.SDirSurname + " " + x.SDirName,
+                             Priority = 3,
+                         }).ToList();
+                    Model.lstGraduates.AddRange(lst);
+                }
+                Model.lstGraduates =
+                    Model.lstGraduates.GroupBy(x => x.Id).Select(x => new RepoMainListItem()
+                    {
+                        FIO = x.First().FIO,
+                        Id = x.Key,
+                        DirectionName = x.First().DirectionName,
+                        VKRName = x.First().VKRName,
+                        ScienceDirector = x.First().ScienceDirector,
+                        Priority = x.Sum(t=>t.Priority),
+                    }).ToList();
                 return View(Model);
             }
         }

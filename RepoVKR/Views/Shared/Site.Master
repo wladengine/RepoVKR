@@ -15,7 +15,8 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title"><%: Html.ActionLink("Репозиторий ВКР", "Index", "Home") %></p>
+                    <p class="site-title">
+                        <a href ="/../">Санкт-Петербургский государственный университет<br />Диплом СПбГУ</a>
                 </div>
                 <div class="float-right">
                     <section id="login">
@@ -23,10 +24,9 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li><%: Html.ActionLink("В начало", "Index", "Home") %></li>
-                            <li><%: Html.ActionLink("Поиск", "Search", "Repo") %></li>
-                           <!-- <li><%: Html.ActionLink("About", "About", "Home") %></li>-->
-                           <!-- <li><%: Html.ActionLink("Contact", "Contact", "Home") %></li>-->
+                            <li><%: Html.ActionLink("Главная", "Index", "Home") %></li>
+                            <li><%: Html.ActionLink("Поиск по параметрам", "Search", "Repo") %></li>
+                            <li><%: Html.ActionLink("Поиск по ключу", "KeyWord", "Repo") %></li>
                         </ul>
                     </nav>
                 </div>

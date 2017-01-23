@@ -8,8 +8,8 @@ body {
     background-color: #fff;
     border-top: solid 10px #000;
     color: #333;
-    font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-size: 14px;
+    font-family: "Arial", Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
 }
@@ -95,7 +95,7 @@ h5, h6 {
 ----------------------------------------------------------*/
 .content-wrapper {
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 1260px;
 }
 
 #body {
