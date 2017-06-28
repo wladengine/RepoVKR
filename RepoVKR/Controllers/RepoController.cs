@@ -13,9 +13,11 @@ namespace RepoVKR.Controllers
     {
         //
         // GET: /Repo/
-
         public ActionResult Index(string id)
         {
+            if (!Util.GetIsUserInAccepted(Request.LogonUserIdentity.Name))
+                return new HttpStatusCodeResult(403);
+
             using (RepoVKREntities context = new RepoVKREntities())
             {
                 int iLevelId = 0;
@@ -54,9 +56,11 @@ namespace RepoVKR.Controllers
                 return View(model);
             }
         }
-
         public ActionResult Search(RepoSearchModel Model)
         {
+            if (!Util.GetIsUserInAccepted(Request.LogonUserIdentity.Name))
+                return new HttpStatusCodeResult(403);
+
             if (Model ==  null)
             {
                 Model = new RepoSearchModel();
@@ -136,6 +140,9 @@ namespace RepoVKR.Controllers
         }
         public ActionResult Keyword(RepoKeyWordModel Model)
         {
+            if (!Util.GetIsUserInAccepted(Request.LogonUserIdentity.Name))
+                return new HttpStatusCodeResult(403);
+
             if (Model == null)
             {
                 Model = new RepoKeyWordModel();
@@ -269,9 +276,11 @@ namespace RepoVKR.Controllers
                 return View(Model);
             }
         }
-
         public ActionResult GraduateBook(string id)
         {
+            if (!Util.GetIsUserInAccepted(Request.LogonUserIdentity.Name))
+                return new HttpStatusCodeResult(403);
+
             using (RepoVKREntities context = new RepoVKREntities())
             {
                 Guid gId = Guid.Empty;
@@ -279,6 +288,8 @@ namespace RepoVKR.Controllers
                     return View();
 
                 var Graduate = context.GraduateBook.Where(x => x.Id == gId).FirstOrDefault();
+
+                Util.LogGraduateBookActionToDB(gId, "Просмотр сведений", Request.LogonUserIdentity.Name);
 
                 GraduateBookModel model = new GraduateBookModel();
                 model.Annotation = Graduate.VKRAnnotation;
@@ -318,15 +329,20 @@ namespace RepoVKR.Controllers
         //        return file;
         //    }
         //}
-
         public void GetFile(string id)
         {
+            if (!Util.GetIsUserInAccepted(Request.LogonUserIdentity.Name))
+                return;
+
             Guid FileId = new Guid(id);
             using (RepoVKREntities context = new RepoVKREntities())
             {
                 var File = context.GraduateWorkFile.Where(x => x.Id == FileId).FirstOrDefault();
                 if (File == null)
                     return;
+
+                //логируем действие в базу
+                Util.LogGraduateBookActionToDB(File.GraduateBookId, "Скачивание файла: " + File.FileName, Request.LogonUserIdentity.Name);
 
                 using (Stream fs = Util.GetStreamSQL("FileStorage", "FileData", File.FileStorageId))
                 {

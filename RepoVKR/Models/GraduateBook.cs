@@ -18,6 +18,7 @@ namespace RepoVKR.Models
         public GraduateBook()
         {
             this.GraduateWorkFile = new HashSet<GraduateWorkFile>();
+            this.ActionLOG = new HashSet<ActionLOG>();
         }
     
         public System.Guid Id { get; set; }
@@ -36,5 +37,7 @@ namespace RepoVKR.Models
         public virtual Student Student { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GraduateWorkFile> GraduateWorkFile { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ActionLOG> ActionLOG { get; set; }
     }
 }

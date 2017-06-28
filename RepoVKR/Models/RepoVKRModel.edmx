@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="RepoVKRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AcceptedLogins">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ActionLOG">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TIMESTAMP" Type="datetime" Nullable="false" />
+          <Property Name="GraduateBookId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ActionUser" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="GraduateBook">
           <Key>
             <PropertyRef Name="Id" />
@@ -46,6 +62,12 @@
           <Property Name="BirthDate" Type="date" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="FIOEng" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="PrivilegedLogins">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="Reviewer">
           <Key>
@@ -89,6 +111,18 @@
           <Property Name="StudyLevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TypeInt" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ActionLOG_GraduateBook">
+          <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="1" />
+          <End Role="ActionLOG" Type="Self.ActionLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GraduateBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActionLOG">
+              <PropertyRef Name="GraduateBookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GraduateBook_Reviewer">
           <End Role="Reviewer" Type="Self.Reviewer" Multiplicity="1" />
           <End Role="GraduateBook" Type="Self.GraduateBook" Multiplicity="*" />
@@ -150,13 +184,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="RepoVKRModelStoreContainer">
+          <EntitySet Name="AcceptedLogins" EntityType="Self.AcceptedLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActionLOG" EntityType="Self.ActionLOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GraduateBook" EntityType="Self.GraduateBook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GraduateWorkFile" EntityType="Self.GraduateWorkFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrivilegedLogins" EntityType="Self.PrivilegedLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reviewer" EntityType="Self.Reviewer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScienceDirector" EntityType="Self.ScienceDirector" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudyLevelNameMask" EntityType="Self.StudyLevelNameMask" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ActionLOG_GraduateBook" Association="Self.FK_ActionLOG_GraduateBook">
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+            <End Role="ActionLOG" EntitySet="ActionLOG" />
+          </AssociationSet>
           <AssociationSet Name="FK_GraduateBook_Reviewer" Association="Self.FK_GraduateBook_Reviewer">
             <End Role="Reviewer" EntitySet="Reviewer" />
             <End Role="GraduateBook" EntitySet="GraduateBook" />
@@ -200,6 +241,7 @@
           <NavigationProperty Name="ScienceDirector" Relationship="Self.FK_GraduateBook_ScienceDirector" FromRole="GraduateBook" ToRole="ScienceDirector" />
           <NavigationProperty Name="Student" Relationship="Self.FK_GraduateBook_Student" FromRole="GraduateBook" ToRole="Student" />
           <NavigationProperty Name="GraduateWorkFile" Relationship="RepoVKRModel.FK_GraduateWorkFile_GraduateBook" FromRole="GraduateBook" ToRole="GraduateWorkFile" />
+          <NavigationProperty Name="ActionLOG" Relationship="RepoVKRModel.FK_ActionLOG_GraduateBook" FromRole="GraduateBook" ToRole="ActionLOG" />
         </EntityType>
         <EntityType Name="GraduateWorkFile">
           <Key>
@@ -333,6 +375,13 @@
             <End Role="GraduateBook" EntitySet="GraduateBook" />
             <End Role="GraduateWorkFile" EntitySet="GraduateWorkFile" />
           </AssociationSet>
+          <EntitySet Name="AcceptedLogins" EntityType="RepoVKRModel.AcceptedLogins" />
+          <EntitySet Name="PrivilegedLogins" EntityType="RepoVKRModel.PrivilegedLogins" />
+          <EntitySet Name="ActionLOG" EntityType="RepoVKRModel.ActionLOG" />
+          <AssociationSet Name="FK_ActionLOG_GraduateBook" Association="RepoVKRModel.FK_ActionLOG_GraduateBook">
+            <End Role="GraduateBook" EntitySet="GraduateBook" />
+            <End Role="ActionLOG" EntitySet="ActionLOG" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="StudyLevelNameMask">
           <Key>
@@ -361,6 +410,41 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="GraduateWorkFile">
+              <PropertyRef Name="GraduateBookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AcceptedLogins">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PrivilegedLogins">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ActionLOG">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TIMESTAMP" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GraduateBookId" Type="Guid" Nullable="false" />
+          <Property Name="ActionUser" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GraduateBook" Relationship="RepoVKRModel.FK_ActionLOG_GraduateBook" FromRole="ActionLOG" ToRole="GraduateBook" />
+        </EntityType>
+        <Association Name="FK_ActionLOG_GraduateBook">
+          <End Type="RepoVKRModel.GraduateBook" Role="GraduateBook" Multiplicity="1" />
+          <End Type="RepoVKRModel.ActionLOG" Role="ActionLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GraduateBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActionLOG">
               <PropertyRef Name="GraduateBookId" />
             </Dependent>
           </ReferentialConstraint>
@@ -459,6 +543,31 @@
               <MappingFragment StoreEntitySet="StudyLevelNameMask">
                 <ScalarProperty Name="TypeInt" ColumnName="TypeInt" />
                 <ScalarProperty Name="StudyLevelName" ColumnName="StudyLevelName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcceptedLogins">
+            <EntityTypeMapping TypeName="RepoVKRModel.AcceptedLogins">
+              <MappingFragment StoreEntitySet="AcceptedLogins">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrivilegedLogins">
+            <EntityTypeMapping TypeName="RepoVKRModel.PrivilegedLogins">
+              <MappingFragment StoreEntitySet="PrivilegedLogins">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActionLOG">
+            <EntityTypeMapping TypeName="RepoVKRModel.ActionLOG">
+              <MappingFragment StoreEntitySet="ActionLOG">
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ActionUser" ColumnName="ActionUser" />
+                <ScalarProperty Name="GraduateBookId" ColumnName="GraduateBookId" />
+                <ScalarProperty Name="TIMESTAMP" ColumnName="TIMESTAMP" />
+                <ScalarProperty Name="OrdId" ColumnName="OrdId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

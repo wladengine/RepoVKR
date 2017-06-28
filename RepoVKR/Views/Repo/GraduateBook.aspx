@@ -64,7 +64,13 @@
     <% foreach (var f in Model.lstFiles) { %>
     <tr>
         <td><%= f.FileName %></td>
-        <td><%= f.FileSize.ToString() + " bytes" %></td>
+        <td><% string sSize = f.FileSize.ToString() + " bytes";
+               if (f.FileSize > 1024 * 1024 * 1024)
+                   sSize = Math.Round((double)f.FileSize / (1024d * 1024d * 1024d), 2).ToString() + " GB";
+               else if (f.FileSize > 1024 * 1024)
+                   sSize = Math.Round((double)f.FileSize / (1024d * 1024d), 2).ToString() + " MB";
+               else if (f.FileSize > 1024)
+                   sSize = Math.Round((double)f.FileSize / 1024d, 2).ToString() + " kB"; %><%= sSize %></td>
         <td><a href="/Repo/GetFile/<%= f.Id %>">Скачать</a></td>
     </tr>
     <% } %>

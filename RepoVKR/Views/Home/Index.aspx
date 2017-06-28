@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
 <asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
-  
+  Выпускные квалификационные работы
 </asp:Content>
 
 <asp:Content ID="indexFeatured" ContentPlaceHolderID="FeaturedContent" runat="server">
@@ -36,8 +36,8 @@
             </td>
             <td style="text-align:center;">
                 <h3>Информация о дипломе СПбГУ</h3>
-                <hr />
-                Для получения информации отсканируйте QR-код в Вашем дипломе!
+                <%--<hr />
+                2016 год--%>
             </td>
         </tr>
     </table>

@@ -32,5 +32,8 @@ namespace RepoVKR.Models
         public virtual DbSet<ScienceDirector> ScienceDirector { get; set; }
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<StudyLevelNameMask> StudyLevelNameMask { get; set; }
+        public virtual DbSet<AcceptedLogins> AcceptedLogins { get; set; }
+        public virtual DbSet<PrivilegedLogins> PrivilegedLogins { get; set; }
+        public virtual DbSet<ActionLOG> ActionLOG { get; set; }
     }
 }

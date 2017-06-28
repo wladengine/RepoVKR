@@ -20,7 +20,7 @@
                 </div>
                 <div class="float-right">
                     <section id="login">
-                       Вы зашли под учетной записью: <span class="username"><%: Page.User.Identity.Name %></span>!
+                       Приветствую вас, <span class="username"><%: RepoVKR.Util.GetADUserName(Page.User.Identity.Name) %></span>!
                     </section>
                     <nav>
                         <ul id="menu">

@@ -17,6 +17,10 @@
         <EntityTypeShape EntityType="RepoVKRModel.StudyLevelNameMask" Width="1.5" PointX="10" PointY="3.875" />
         <AssociationConnector Association="RepoVKRModel.FK_Student_Person" />
         <AssociationConnector Association="RepoVKRModel.FK_GraduateWorkFile_GraduateBook" />
+        <EntityTypeShape EntityType="RepoVKRModel.AcceptedLogins" Width="1.5" PointX="12.375" PointY="0.625" />
+        <EntityTypeShape EntityType="RepoVKRModel.PrivilegedLogins" Width="1.5" PointX="12.375" PointY="2" />
+        <EntityTypeShape EntityType="RepoVKRModel.ActionLOG" Width="1.5" PointX="7.25" PointY="4.625" />
+        <AssociationConnector Association="RepoVKRModel.FK_ActionLOG_GraduateBook" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

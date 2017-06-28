@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -160,6 +161,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AcceptedLogins.cs">
+      <DependentUpon>RepoVKRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActionLOG.cs">
+      <DependentUpon>RepoVKRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GraduateBook.cs">
       <DependentUpon>RepoVKRModel.tt</DependentUpon>
     </Compile>
@@ -168,6 +175,9 @@
       <DependentUpon>RepoVKRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Person.cs">
+      <DependentUpon>RepoVKRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PrivilegedLogins.cs">
       <DependentUpon>RepoVKRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepoMainList.cs" />
